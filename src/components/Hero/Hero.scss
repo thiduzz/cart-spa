@@ -1,3 +1,6 @@
-.hero {
-  min-height: 500px;
+.hero-wrapper{
+  @apply shadow-inner shadow-2xl relative;
+  .hero {
+    min-height: 500px;
+  }
 }

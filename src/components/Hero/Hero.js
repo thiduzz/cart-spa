@@ -3,10 +3,12 @@ import * as React from 'react';
 import adImage from './ad.jpg'
 import './Hero.scss'
 
-export function Hero() {
+export function Hero(props) {
+    const classes = 'hero-wrapper ' + props.className;
     return (
-        <div>
-            <div style={{backgroundImage: `url(${adImage})`}} className="w-full h-96 bg-cover bg-bottom bg-no-repeat bg-fixed"/>
+        <div className={classes}>
+            <div style={{backgroundImage: `url(${adImage})`}} className="hero w-full bg-cover bg-center bg-no-repeat"/>
+            {props.children}
         </div>
     );
 };
