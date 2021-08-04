@@ -1,10 +1,11 @@
 import React from 'react';
+import Modal from "../UI/Modal";
 
 const CartModal = (props) => {
     return (
-        <div>
-
-        </div>
+        <Modal onClose={props.onClose}>
+            Cart Modal
+        </Modal>
     );
 };
 

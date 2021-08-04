@@ -1,4 +1,5 @@
 import React from 'react';
+import './Modal.scss'
 
 const Modal = (props) => {
     const overlayClasses = "overlay " + (props.classOverlay ? props.classOverlay : '')
@@ -13,7 +14,7 @@ const Modal = (props) => {
                     {props.children}
                 </div>
                 <div className="mt-5 flex flex-row justify-end">
-                    <Button onClick={onCloseHandler}>Okay</Button>
+                    <button onClick={onCloseHandler}>Okay</button>
                 </div>
             </div>
         </div>
