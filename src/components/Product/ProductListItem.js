@@ -1,33 +1,62 @@
-import React, {useState} from 'react';
+import React, { useContext, useEffect, useState} from 'react';
 import "./ProductListItem.scss"
 import {FiMinus, FiPlus} from "react-icons/fi";
+import CartContext from "../../store/cart-context";
 
-const ProductListItem = (props) => {
-    const formattedPrice = props.product.price.toFixed(2);
+const ProductListItem = ({product}) => {
     const [qty, setQty] = useState(0)
-    const onRemoveClickHandler = () => setQty((prvValue) => {
-        if(prvValue > 0){
-            return  --prvValue;
+    const {onChange} = useContext(CartContext);
+    useEffect(() => {
+        if (qty >= 1){
+            onChange({type: 'ITEM_ADDED', product: {...product, qty}})
+        }else{
+            onChange({type: 'ITEM_REMOVED', product: product})
         }
-        return prvValue;
-    })
-    const onAddClickHandler = () => setQty((prvValue) => ++prvValue)
+        return () => {}
+    },[qty, product, onChange])
 
+    const onRemoveClickHandler = () => {
+        setQty((prvValue) => {
+            if(prvValue > 0){
+                return prvValue - 1;
+            }
+            return prvValue;
+        });
+    }
+
+    const onAddClickHandler = () => {
+        setQty((prvValue) => prvValue + 1)
+    }
+
+    const onChangeInputHandler = (e) => {
+        setQty((prvValue) => {
+            if(e.target.value > 0){
+                return parseInt(e.target.value);
+            }
+            if(e.target.value === ''){
+                return 0;
+            }
+            return prvValue;
+        })
+    };
+
+
+    const formattedPrice = product.price.toFixed(2);
     return (
-        <div className="product-list-item h-80 bg-white-100 shadow-md rounded-lg w-full">
+        <div className="product-list-item h-72 bg-white-100 shadow-md rounded-lg w-full">
             <div className="product-list-item-image-wrapper">
-                <div className="product-list-item-thumbnail w-full h-full" style={{backgroundImage: `url(${props.product.thumbnail_url})`}}/>
+                <div className="product-list-item-thumbnail w-full h-full" style={{backgroundImage: `url(${product.thumbnail_url})`}}/>
             </div>
-            <div className="font-fabarie p-6 flex flex-row justify-between">
+            <div className="font-fabarie p-4 flex flex-row justify-between">
                 <div>
-                    <h3 className="text-2xl">{props.product.name}</h3>
+                    <h3 className="text-2xl">{product.name}</h3>
                     <p className="text-xl">€ {formattedPrice}</p>
                 </div>
                 <div className="flex flex-row justify-center items-center">
                     <button className="product-list-item-qty-btn" onClick={onRemoveClickHandler}>
                         <FiMinus size={32} className="text-white-100"/>
                     </button>
-                    <input type="number" min="0" step="1" value={qty} className="w-12 text-xl rounded-lg text-center" />
+                    <input type="number" onChange={onChangeInputHandler} min="0" step="1" value={qty} className="w-12 text-xl rounded-lg text-center mx-2 shadow-inner shadow-2xl " />
                     <button  className="product-list-item-qty-btn" onClick={onAddClickHandler}>
                         <FiPlus size={32} className="text-white-100"/>
                     </button>
