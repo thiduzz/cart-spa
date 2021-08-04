@@ -1,0 +1,10 @@
+.overlay{
+  @apply h-screen w-screen fixed z-30 inset-0 flex items-center justify-center;
+  .backdrop{
+    @apply z-40 bg-black h-full w-full opacity-30 absolute;
+  }
+  .modal{
+    @apply bg-white z-50 absolute shadow-lg rounded-lg max-w-lg w-full p-5;
+    max-height: 15rem;
+  }
+}
