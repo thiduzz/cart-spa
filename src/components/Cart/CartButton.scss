@@ -1,0 +1,9 @@
+.cart-btn{
+  @apply bg-white-400 px-10 py-2 shadow-inner shadow-2xl rounded-full;
+  &:hover{
+    @apply opacity-50;
+  }
+  .cart-btn-bubble{
+    @apply bg-red-400 rounded-full p-1 font-fabarie w-6 h-6 absolute text-white-400 text-center leading-normal flex items-center justify-center -top-3 -right-4;
+  }
+}
