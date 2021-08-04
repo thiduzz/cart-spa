@@ -1,5 +1,5 @@
 import React from 'react';
-import {FiMinus, FiPlus} from "react-icons/fi";
+import ProductQuantityButton from "../Product/ProductQuantityButton";
 
 const CartItem = (props) => {
     const formattedPrice = props.item.price.toFixed(2);
@@ -13,16 +13,17 @@ const CartItem = (props) => {
     }
 
     return (
-        <li className="flex flex-row w-full">
+        <li className="flex flex-row w-full justify-between font-fabarie items-center">
             <div className="flex flex-col justify-start">
-                <div className="text-xl">{props.item.name}</div>
+                <div className="text-xl font-bold">{props.item.name}</div>
                 <div className="flex flex-row">
-                    <span>{formattedPrice}</span>
-                    <span>{props.item.qty}</span>
+                    <span className="mr-2">€ {formattedPrice}</span>
+                    <span>x {props.item.qty}</span>
                 </div>
             </div>
-            <div>
-
+            <div className="flex flex-row">
+                <ProductQuantityButton className="mr-2" type="remove" onClick={onRemoveClickHandler}/>
+                <ProductQuantityButton type="add" onClick={onAddClickHandler}/>
             </div>
         </li>
     );
