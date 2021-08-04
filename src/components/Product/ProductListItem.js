@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState} from 'react';
 import "./ProductListItem.scss"
-import {FiMinus, FiPlus} from "react-icons/fi";
 import CartContext from "../../store/cart-context";
+import ProductQuantityButton from "./ProductQuantityButton";
 
 const ProductListItem = ({product}) => {
     const [qty, setQty] = useState(0)
@@ -53,13 +53,9 @@ const ProductListItem = ({product}) => {
                     <p className="text-xl">€ {formattedPrice}</p>
                 </div>
                 <div className="flex flex-row justify-center items-center">
-                    <button className="product-list-item-qty-btn" onClick={onRemoveClickHandler}>
-                        <FiMinus size={32} className="text-white-100"/>
-                    </button>
+                    <ProductQuantityButton type="remove" onClick={onRemoveClickHandler}/>
                     <input type="number" onChange={onChangeInputHandler} min="0" step="1" value={qty} className="w-12 text-xl rounded-lg text-center mx-2 shadow-inner shadow-2xl " />
-                    <button  className="product-list-item-qty-btn" onClick={onAddClickHandler}>
-                        <FiPlus size={32} className="text-white-100"/>
-                    </button>
+                    <ProductQuantityButton type="add" onClick={onAddClickHandler}/>
                 </div>
             </div>
 
