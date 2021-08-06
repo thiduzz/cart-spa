@@ -13,8 +13,9 @@ const Modal = (props) => {
                 <div>
                     {props.children}
                 </div>
-                <div className="mt-5 flex flex-row justify-end">
-                    <button onClick={onCloseHandler}>Okay</button>
+                <div id="modal-btn-container" className="mt-5 flex flex-row justify-end">
+                    {props.buttons === undefined && <button onClick={onCloseHandler}>Okay</button>}
+                    {props.buttons !== undefined && props.buttons}
                 </div>
             </div>
         </div>

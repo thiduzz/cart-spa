@@ -4,8 +4,8 @@ import CartContext from "../../store/cart-context";
 import ProductQuantityButton from "./ProductQuantityButton";
 
 const ProductListItem = ({product}) => {
-    const [qty, setQty] = useState(0)
     const {onChange} = useContext(CartContext);
+    const [qty, setQty] = useState(0)
     useEffect(() => {
         if (qty >= 1){
             onChange({type: 'ITEM_ADDED', product: {...product, qty}})
