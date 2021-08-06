@@ -5,11 +5,15 @@ const CartItem = (props) => {
     const formattedPrice = props.item.price.toFixed(2);
 
     const onRemoveClickHandler = () => {
-
+        if (props.item.qty > 1){
+            props.onQuantityChange({type: 'ITEM_CHANGED', product: {...props.item, qty:  props.item.qty - 1}})
+        }else{
+            props.onQuantityChange({type: 'ITEM_REMOVED', product: props.item})
+        }
     }
 
     const onAddClickHandler = () => {
-
+        props.onQuantityChange({type: 'ITEM_CHANGED', product: {...props.item, qty: props.item.qty + 1 }})
     }
 
     return (

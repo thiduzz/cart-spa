@@ -12,7 +12,7 @@ function App() {
     const [cartState, cartDispatch] = useReducer(useCallback((state, action) => {
         console.log('app.js action: ' + JSON.stringify(action))
         switch (action.type) {
-            case 'ITEM_ADDED':
+            case 'ITEM_CHANGED':
                 if(state.items.filter((item) => item.id === action.product.id).length > 0){
                     return {
                         items: state.items.map((item) => {

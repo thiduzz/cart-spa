@@ -16,7 +16,7 @@ const CartModal = (props) => {
                 <button className="bg-red-400 text-white-100 px-6 py-3 rounded-2xl text-2xl">Order</button>
             </div>
             }>
-            {hasItemsInCart && <ul className="w-full">{ctx.items.map((item) => <CartItem item={item} key={item.id}/>)}</ul>}
+            {hasItemsInCart && <ul className="w-full">{ctx.items.map((item) => <CartItem item={item} key={item.id} onQuantityChange={ctx.onChange} />)}</ul>}
             {hasItemsInCart &&  <div className="font-fabarie font-bold text-2xl">
                 <div className="border-t-2 border-black-100">Total: € {totalValue}</div>
             </div>}

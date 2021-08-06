@@ -8,7 +8,7 @@ const ProductListItem = ({product}) => {
     const [qty, setQty] = useState(0)
     useEffect(() => {
         if (qty >= 1){
-            onChange({type: 'ITEM_ADDED', product: {...product, qty}})
+            onChange({type: 'ITEM_CHANGED', product: {...product, qty}})
         }else{
             onChange({type: 'ITEM_REMOVED', product: product})
         }
