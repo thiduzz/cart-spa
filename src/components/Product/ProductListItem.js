@@ -4,7 +4,7 @@ import CartContext from "../../store/cart-context";
 import ProductQuantityButton from "./ProductQuantityButton";
 
 const ProductListItem = ({product}) => {
-    const {onChange} = useContext(CartContext);
+    const {items, onChange} = useContext(CartContext);
     const [qty, setQty] = useState(0)
     useEffect(() => {
         if (qty >= 1){
@@ -13,7 +13,19 @@ const ProductListItem = ({product}) => {
             onChange({type: 'ITEM_REMOVED', product: product})
         }
         return () => {}
-    },[qty, product, onChange])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[qty])
+
+    useEffect(() => {
+        const cartItem = items.find((item)=> item.id === product.id)
+        if(cartItem && cartItem.qty !== qty){
+            setQty(cartItem.qty)
+        }
+        if(qty >= 1 && !cartItem){
+            setQty(0)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[items, product])
 
     const onRemoveClickHandler = () => {
         setQty((prvValue) => {
