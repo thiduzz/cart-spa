@@ -3,35 +3,13 @@ import {TopBar} from "./components/TopBar";
 import {Hero} from "./components/Hero/Hero";
 import Content from "./components/UI/Content";
 import ProductList from "./components/Product/ProductList";
-import CartContext from "./store/cart-context";
-import {useCallback, useReducer} from "react";
+import CartProvider from "./store/CartProvider";
 
 
 function App() {
 
-    const [cartState, cartDispatch] = useReducer(useCallback((state, action) => {
-        console.log('app.js action: ' + JSON.stringify(action))
-        switch (action.type) {
-            case 'ITEM_CHANGED':
-                if(state.items.filter((item) => item.id === action.product.id).length > 0){
-                    return {
-                        items: state.items.map((item) => {
-                            if(action.product.id === item.id){
-                                item.qty = action.product.qty;
-                            }
-                            return item;
-                        })
-                    };
-                }
-                return {items:[action.product, ...state.items]}
-            case 'ITEM_REMOVED':
-                return {items: state.items.filter((item) => item.id !== action.product.id)}
-            default:
-                return state;
-        }
-    },[]), {items: []});
     return (
-        <CartContext.Provider value={ {items: cartState.items, onChange: cartDispatch } }>
+        <CartProvider>
             <div className="h-full min-h-screen w-screen bg-white-400">
                 <TopBar/>
                 <Content>
@@ -50,7 +28,7 @@ function App() {
                     </div>
                 </Content>
             </div>
-        </CartContext.Provider>
+        </CartProvider>
     );
 }
 

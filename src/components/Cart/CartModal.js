@@ -13,7 +13,7 @@ const CartModal = (props) => {
         <Modal onClose={props.onClose} buttons={
             <div className="flex flex-row justify-between w-full">
                 <button onClick={props.onClose} className="text-2xl">Close</button>
-                <button className="bg-red-400 text-white-100 px-6 py-3 rounded-2xl text-2xl">Order</button>
+                {hasItemsInCart && <button className="bg-red-400 text-white-100 px-6 py-3 rounded-2xl text-2xl">Order</button>}
             </div>
             }>
             {hasItemsInCart && <ul className="w-full">{ctx.items.map((item) => <CartItem item={item} key={item.id} onQuantityChange={ctx.onChange} />)}</ul>}
