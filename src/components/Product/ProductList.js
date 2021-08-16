@@ -1,25 +1,31 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import ProductListItem from "./ProductListItem";
+import useHttp from "../../hooks/use-http";
+import {ImSpinner8} from "react-icons/im";
 
-const Products = [
-    {id: 1, name: "Product 1", price: 20.3, thumbnail_url: "https://picsum.photos/seed/product1/500/500"},
-    {id: 2, name: "Product 2", price: 300, thumbnail_url: "https://picsum.photos/seed/product2/500/500"},
-    {id: 3, name: "Product 3", price: 223, thumbnail_url: "https://picsum.photos/seed/product3/500/500"},
-    {id: 4, name: "Product 4", price: 999, thumbnail_url: "https://picsum.photos/seed/product4/500/500"},
-    {id: 5, name: "Product 5", price: 2200, thumbnail_url: "https://picsum.photos/seed/product5/500/500"},
-    {id: 6, name: "Product 6", price: 9.99, thumbnail_url: "https://picsum.photos/seed/product6/500/500"},
-    {id: 7, name: "Product 7", price: 7.90, thumbnail_url: "https://picsum.photos/seed/product7/500/500"},
-    {id: 8, name: "Product 8", price: 3.50, thumbnail_url: "https://picsum.photos/seed/product8/500/500"},
-    {id: 9, name: "Product 9", price: 20.6, thumbnail_url: "https://picsum.photos/seed/product9/500/500"},
-    {id: 10, name: "Product 10", price: 99.9, thumbnail_url: "https://picsum.photos/seed/product10/500/500"},
-]
 
-const ProductList = (props) => {
+const ProductList = () => {
+    const [products, setProducts] = useState([])
+    const {sendRequest: fetchProducts, isLoading, error } = useHttp()
+
+    useEffect(() =>  {
+        fetchProducts({url: 'products.json'}).then(function(response){
+            if(response.data){
+                setProducts(response.data)
+            }
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
 
     return (
-        <div className="grid grid-cols-3 gap-6 place-items-center">
-            {Products.map((product) => <ProductListItem product={product} key={product.id} />)}
-        </div>
+        <React.Fragment>
+            {!isLoading && products.length > 0 && <div className="grid grid-cols-3 gap-6 place-items-center">
+                {products.map((product) => <ProductListItem product={product} key={product.id} />)}
+            </div>}
+            {!isLoading && products.length <= 0 && <p>No products available</p>}
+            {!isLoading && error && <p>Woops! An error occured: {error}</p>}
+            {isLoading && <div className="flex flex-row items-center justify-center"><ImSpinner8 className="icon-spin mr-10" size={32}/> Loading...</div>}
+        </React.Fragment>
     );
 };
 
