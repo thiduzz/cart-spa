@@ -8,7 +8,6 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
-    "env-cmd": "^10.1.0",
     "node-sass": "^4.14.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -17,8 +16,8 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "env-cmd craco start",
-    "build": "env-cmd craco build",
+    "start": "craco start",
+    "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
