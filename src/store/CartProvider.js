@@ -1,8 +1,7 @@
 import React, {useCallback, useReducer} from 'react';
-import CartContext from "./cart-context";
+import {CartContext, InitialCustomer} from "./cart-context";
 
 const cartReducerCallback = (state, action) => {
-    console.log('app.js action: ' + JSON.stringify(action))
     switch (action.type) {
         case 'ITEM_CHANGED':
             if(state.items.filter((item) => item.id === action.product.id).length > 0){
@@ -15,9 +14,11 @@ const cartReducerCallback = (state, action) => {
                     })
                 };
             }
-            return {items:[action.product, ...state.items]}
+            return {items:[action.product, ...state.items], customer: state.customer}
         case 'ITEM_REMOVED':
-            return {items: state.items.filter((item) => item.id !== action.product.id)}
+            return {items: state.items.filter((item) => item.id !== action.product.id), customer: state.customer}
+        case 'RESET_CUSTOMER':
+            return {items: state.items, customer: InitialCustomer}
         default:
             return state;
     }
@@ -25,9 +26,9 @@ const cartReducerCallback = (state, action) => {
 
 const CartProvider = (props) => {
 
-    const [cartState, cartDispatch] = useReducer(useCallback(cartReducerCallback,[]), {items: []});
+    const [cartState, cartDispatch] = useReducer(useCallback(cartReducerCallback,[]), {items: [], customer: InitialCustomer});
     return (
-        <CartContext.Provider value={ {items: cartState.items, onChange: cartDispatch } }>
+        <CartContext.Provider value={ {items: cartState.items, onChange: cartDispatch, customer: cartState.customer } }>
             {props.children}
         </CartContext.Provider>
     );
