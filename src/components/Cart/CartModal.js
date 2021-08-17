@@ -1,26 +1,54 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Modal from "../UI/Modal";
 import CartContext from "../../store/cart-context";
-import CartItem from "./CartItem";
+import CartModalListing from "./CartModalListing";
+import CartModalButtons from "./CartModalButtons";
+import CartModalCheckout from "./CartModalCheckout";
+
+export const STEP_LIST = 'list';
+export const STEP_CHECKOUT = 'checkout';
+export const STEP_PAYMENT = 'payment';
+export const STEP_FINISH = 'ordered'
 
 const CartModal = (props) => {
-    const ctx = useContext(CartContext)
-    const hasItemsInCart = ctx.items.length > 0;
-    const totalValue = ctx.items.reduce((total, currentItem) => {
-        return total + (currentItem.qty * currentItem.price)
-    },0).toFixed(2)
+    const {items, onChange: dispatchChangeToCart} = useContext(CartContext)
+    const [cartStep, setCartStep] = useState(STEP_LIST);
+    useEffect(() => {
+        if(items.length > 0){
+            setCartStep(STEP_LIST)
+        }
+    },[items])
+
+
+    const onCloseModalHandler = () => {
+        props.onClose();
+        dispatchChangeToCart({type: 'RESET_CUSTOMER'})
+        setCartStep(STEP_LIST)
+    }
+    const onNextHandler = () => {
+        switch (cartStep){
+            case STEP_LIST:
+                setCartStep(STEP_CHECKOUT)
+                break;
+            case STEP_CHECKOUT:
+                setCartStep(STEP_PAYMENT)
+                break;
+            case STEP_PAYMENT:
+                setCartStep(STEP_FINISH)
+                break;
+            default:
+                break;
+        }
+    }
+
     return (
-        <Modal onClose={props.onClose} buttons={
-            <div className="flex flex-row justify-between w-full">
-                <button onClick={props.onClose} className="text-2xl">Close</button>
-                {hasItemsInCart && <button className="bg-red-400 text-white-100 px-6 py-3 rounded-2xl text-2xl">Order</button>}
-            </div>
-            }>
-            {hasItemsInCart && <ul className="w-full">{ctx.items.map((item) => <CartItem item={item} key={item.id} onQuantityChange={ctx.onChange} />)}</ul>}
-            {hasItemsInCart &&  <div className="font-fabarie font-bold text-2xl">
-                <div className="border-t-2 border-black-100">Total: € {totalValue}</div>
-            </div>}
-            {!hasItemsInCart && <h1>No items in the cart</h1>}
+        <Modal onClose={onCloseModalHandler} buttons={
+            <CartModalButtons onClose={onCloseModalHandler} step={cartStep} onNext={onNextHandler}/>
+        }>
+            {cartStep === STEP_LIST && <CartModalListing/>}
+            {cartStep === STEP_CHECKOUT && <CartModalCheckout/>}
+            {cartStep === STEP_PAYMENT && <div>Payment Step</div>}
+            {cartStep === STEP_FINISH && <div>Finish Step</div>}
         </Modal>
     );
 };
