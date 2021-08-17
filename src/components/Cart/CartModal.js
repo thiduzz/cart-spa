@@ -11,7 +11,7 @@ export const STEP_PAYMENT = 'payment';
 export const STEP_FINISH = 'ordered'
 
 const CartModal = (props) => {
-    const {items, onChange: dispatchChangeToCart} = useContext(CartContext)
+    const {items, onChange: dispatchChangeToCart, isCustomerValid} = useContext(CartContext)
     const [cartStep, setCartStep] = useState(STEP_LIST);
     useEffect(() => {
         if(items.length > 0){
@@ -31,7 +31,9 @@ const CartModal = (props) => {
                 setCartStep(STEP_CHECKOUT)
                 break;
             case STEP_CHECKOUT:
-                setCartStep(STEP_PAYMENT)
+                if(isCustomerValid){
+                    setCartStep(STEP_PAYMENT)
+                }
                 break;
             case STEP_PAYMENT:
                 setCartStep(STEP_FINISH)
