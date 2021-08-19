@@ -4,8 +4,8 @@
     @apply z-40 bg-black h-full w-full opacity-30 absolute;
   }
   .modal{
-    @apply bg-white-100 z-50 absolute shadow-lg rounded-lg max-w-lg w-full p-5  font-fabarie;
-    max-height: 15rem;
+    @apply bg-white-100 z-50 absolute shadow-lg rounded-lg max-w-lg w-full p-5  font-fabarie overflow-y-auto;
+    max-height: 50rem;
   }
   button[disabled]{
     @apply opacity-50;
