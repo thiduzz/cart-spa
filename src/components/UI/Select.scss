@@ -1,0 +1,27 @@
+label {
+  top: 0%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  color: rgba(37, 99, 235, 1);
+}
+.empty select:not(:focus) + label {
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+}
+
+.with-error select, .with-error label {
+  @apply border-red-400;
+}
+
+select:not(:focus) + label {
+  color: rgba(70, 70, 70, 1);
+}
+select {
+  border-width: 1px;
+}
+select:focus {
+  outline: none;
+  @apply border-red-400;
+  border-color: rgba(37, 99, 235, 1);
+}
