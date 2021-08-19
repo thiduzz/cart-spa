@@ -10,7 +10,7 @@ const ProductList = () => {
 
     useEffect(() =>  {
         fetchProducts({url: 'products.json'}).then(function(response){
-            if(response.data){
+            if(response && response.data){
                 setProducts(response.data)
             }
         });
