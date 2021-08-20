@@ -19,6 +19,8 @@ const cartReducerCallback = (state, action) => {
             return {items: state.items.filter((item) => item.id !== action.product.id), customer: state.customer, isCustomerValid: state.isCustomerValid}
         case 'RESET_CUSTOMER':
             return {items: state.items, customer: InitialCustomer, isCustomerValid: false}
+        case 'RESET_CART':
+            return {items: [], customer: InitialCustomer, isCustomerValid: false}
         case 'CHECKOUT_VALID':
             return {items: state.items, customer: action.customer, isCustomerValid: true}
         case 'CHECKOUT_INVALID':

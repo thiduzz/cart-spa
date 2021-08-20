@@ -42,6 +42,7 @@ const CartModal = (props) => {
                             orderedAt: new Date()
                         }}).then(function(response){
                         if(response && response.data){
+                            dispatchChangeToCart({type: 'RESET_CART'})
                             setCartStep(STEP_PAYMENT)
                         }
                     });
