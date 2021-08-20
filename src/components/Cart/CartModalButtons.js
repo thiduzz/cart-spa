@@ -1,15 +1,11 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import CartContext from "../../store/cart-context";
 import {STEP_LIST, STEP_CHECKOUT, STEP_PAYMENT, STEP_FINISH} from "./CartModal"
 
 const CartModalButtons = ({onClose: onCloseHandler, onNext: onNextHandler, step}) => {
     const {items, isCustomerValid} = useContext(CartContext)
-    let hasItemsInCart = items.length > 0;
-    let disabledBtn = !isCustomerValid
-    useEffect(() =>{
-        hasItemsInCart = items.length > 0;
-        disabledBtn = !isCustomerValid;
-    },[items, isCustomerValid])
+    const hasItemsInCart = items.length > 0;
+    const disabledBtn = !isCustomerValid
     return (
         <React.Fragment>
             { step === STEP_LIST && <div className="flex flex-row justify-between w-full">
