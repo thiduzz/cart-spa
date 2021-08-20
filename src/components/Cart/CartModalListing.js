@@ -10,6 +10,7 @@ const CartModalListing = () => {
     },0).toFixed(2)
     return (
         <React.Fragment>
+            <h2 className="text-3xl text-center mb-5">Cart</h2>
             {hasItemsInCart && <ul className="w-full">{ctx.items.map((item) => <CartItem item={item} key={item.id} onQuantityChange={ctx.onChange} />)}</ul>}
             {hasItemsInCart &&  <div className="font-fabarie font-bold text-2xl">
                 <div className="border-t-2 border-black-100">Total: € {totalValue}</div>
