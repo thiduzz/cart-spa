@@ -17,6 +17,7 @@ const Input = (props) => {
                     value={props.value}
                     onBlur={props.onBlur}
                     onChange={props.onChange}
+                    readOnly={props.readOnly || false}
                 />
                 <label htmlFor={name} className="absolute left-2 transition-all bg-white-100 px-1">
                     {props.label}
