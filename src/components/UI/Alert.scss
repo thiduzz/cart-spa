@@ -1,0 +1,48 @@
+.alert{
+  @apply text-center py-4;
+  @screen lg{
+    @apply px-4;
+  }
+  .wrapper{
+    @apply p-2 items-center leading-none flex;
+    @screen lg{
+      @apply  inline-flex rounded-full;
+    }
+    .badge{
+      @apply flex rounded-full uppercase px-2 py-1 text-xs font-bold mr-3;
+    }
+  }
+  &.error{
+    .wrapper{
+      @apply bg-red-300 text-white-100;
+      .badge{
+        @apply bg-red-200;
+      }
+    }
+  }
+
+  &.info{
+    .wrapper{
+      @apply bg-blue-300 text-white-100;
+      .badge{
+        @apply bg-blue-200;
+      }
+    }
+  }
+  &.warning{
+    .wrapper{
+      @apply bg-yellow-300 text-white-100;
+      .badge{
+        @apply bg-yellow-200;
+      }
+    }
+  }
+  &.success{
+    .wrapper{
+      @apply bg-green-300 text-white-100;
+      .badge{
+        @apply bg-green-200;
+      }
+    }
+  }
+}
