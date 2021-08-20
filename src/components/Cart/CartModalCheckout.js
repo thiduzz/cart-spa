@@ -7,9 +7,8 @@ import Countries from './Countries.js'
 
 const validateRequired = (value) => value.trim().length > 0;
 const validateMinLength = (value, minLength) => value.trim().length >= minLength;
-const validateRegex = (value,regex) => regex.test(value.trim());
 
-const CartModalCheckout = () => {
+const CartModalCheckout = (props) => {
     const ctx = useContext(CartContext)
     const hasItemsInCart = ctx.items.length > 0;
     const totalValue = ctx.items.reduce((total, currentItem) => {
@@ -56,11 +55,11 @@ const CartModalCheckout = () => {
         inputHasError: countryHasError,
         onBlurHandler: countryOnBlurHandler,
         onChangeHandler: countryOnChangeHandler
-    } = useInput((value) => validateRequired(value) && validateMinLength(value, 3))
+    } = useInput((value) => validateRequired(value) && validateMinLength(value, 2))
 
     useEffect(() => {
         if (nameIsValid && lastNameIsValid && addressIsValid && zipcodeIsValid && cityIsValid && countryIsValid) {
-            ctx.onChange({type: 'CHECKOUT_VALID'})
+            ctx.onChange({type: 'CHECKOUT_VALID', customer: { name, lastName, address, zipcode, city, country } })
         } else {
             ctx.onChange({type: 'CHECKOUT_INVALID'})
         }
@@ -68,25 +67,26 @@ const CartModalCheckout = () => {
     }, [nameIsValid, lastNameIsValid, addressIsValid, zipcodeIsValid, cityIsValid, countryIsValid])
     return (
         <React.Fragment>
+            <h2 className="text-3xl text-center mb-5">Checkout</h2>
             <div>
                 <Input value={name} id="name" label="Name" onBlur={nameOnBlurHandler} onChange={nameOnChangeHandler}
-                       hasError={nameHasError} error="Name is required"/>
+                       readOnly={props.submitting} hasError={nameHasError} error="Name is required"/>
                 <Input value={lastName} id="last_name" label="Last name" onBlur={lastNameOnBlurHandler}
-                       onChange={lastNameOnChangeHandler} hasError={lastNameHasError} error="Last name is required"/>
-                <Input value={address} id="address" label="Address (Street and house number)"
-                       onBlur={addressOnBlurHandler} onChange={addressOnChangeHandler} hasError={addressHasError}
-                       error="Address is invalid"/>
+                       readOnly={props.submitting} onChange={lastNameOnChangeHandler} hasError={lastNameHasError} error="Last name is required"/>
+                <Input value={address} id="address" label="Address (Street and house number)" onBlur={addressOnBlurHandler}
+                       readOnly={props.submitting} onChange={addressOnChangeHandler} hasError={addressHasError} error="Address is invalid"/>
                 <Input value={zipcode} id="zipcode" label="Zipcode" onBlur={zipcodeOnBlurHandler}
-                       onChange={zipcodeOnChangeHandler} hasError={zipcodeHasError} error="Zipcode format is invalid"/>
+                       readOnly={props.submitting} onChange={zipcodeOnChangeHandler} hasError={zipcodeHasError} error="Zipcode format is invalid"/>
                 <Input value={city} id="city" label="City" onBlur={cityOnBlurHandler} onChange={cityOnChangeHandler}
                        hasError={cityHasError} error="City is required"/>
                 <Select value={country} id="country" label="Country" onBlur={countryOnBlurHandler} options={Countries}
-                       onChange={countryOnChangeHandler} hasError={countryHasError} error="Country is required"/>
+                        readOnly={props.submitting} onChange={countryOnChangeHandler} hasError={countryHasError} error="Country is required"/>
 
             </div>
             {hasItemsInCart && <div className="font-fabarie font-bold text-2xl">
                 <div className="border-t-2 border-black-100">Total: € {totalValue}</div>
             </div>}
+            {props.error && <div className="text-red-400 text-xl">Woops! An error ocurred!</div>}
         </React.Fragment>
     );
 };

@@ -20,7 +20,7 @@ const cartReducerCallback = (state, action) => {
         case 'RESET_CUSTOMER':
             return {items: state.items, customer: InitialCustomer, isCustomerValid: false}
         case 'CHECKOUT_VALID':
-            return {items: state.items, customer: state.customer, isCustomerValid: true}
+            return {items: state.items, customer: action.customer, isCustomerValid: true}
         case 'CHECKOUT_INVALID':
             return {items: state.items, customer: state.customer, isCustomerValid: false}
         default:
