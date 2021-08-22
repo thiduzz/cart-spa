@@ -3,13 +3,11 @@ import {TopBar} from "./components/TopBar";
 import {Hero} from "./components/Hero/Hero";
 import Content from "./components/UI/Content";
 import ProductList from "./components/Product/ProductList";
-import CartProvider from "./store/CartProvider";
 
 
 function App() {
 
     return (
-        <CartProvider>
             <div className="h-full min-h-screen w-screen bg-white-400">
                 <TopBar/>
                 <Content>
@@ -28,7 +26,6 @@ function App() {
                     </div>
                 </Content>
             </div>
-        </CartProvider>
     );
 }
 
