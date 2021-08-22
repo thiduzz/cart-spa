@@ -20,26 +20,30 @@ const cartSlice = createSlice({
     initialState,
     reducers:{
         itemChanged(state, action){
-            if(state.items.filter((item) => item.id === action.product.id).length > 0){
+            if(state.items.filter((item) => item.id === action.payload.id).length > 0){
                 state.items = state.items.map((item) => {
-                    if(item.id === action.product.id){
-                        item.qty = action.product.qty;
+                    if(item.id === action.payload.id){
+                        item.qty = action.payload.qty;
                     }
                     return item;
                 })
+            }else{
+                state.items = [action.payload, ...state.items]
             }
         },
-        removeProduct(state, action){
-            state.items.filter((item) => item.id !== action.product.id)
+        productRemoved(state, action){
+            state.items.filter((item) => item.id !== action.payload.id)
         },
-        resetCustomer(state){
-            state.customer = initialCustomer
+        setCustomer(state,action){
+            state.customer = action.payload ? action.payload : initialCustomer
         },
         resetCart(state){
-            state = initialState
+            state.customer = initialCustomer
+            state.items = []
+            state.isCustomerValid = false;
         },
         checkoutValidity(state, action){
-            state.isCustomerValid = action.valid;
+            state.isCustomerValid = action.payload;
         }
     }
 })
