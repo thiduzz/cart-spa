@@ -1,11 +1,12 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Modal from "../UI/Modal";
-import CartContext from "../../store/cart-context";
 import CartModalListing from "./CartModalListing";
 import CartModalButtons from "./CartModalButtons";
 import CartModalCheckout from "./CartModalCheckout";
 import useHttp from "../../hooks/use-http";
 import Alert from "../UI/Alert";
+import {useDispatch, useSelector} from "react-redux";
+import {cartActions} from "../../store/cart-slice";
 
 export const STEP_LIST = 'list';
 export const STEP_CHECKOUT = 'checkout';
@@ -13,7 +14,8 @@ export const STEP_PAYMENT = 'payment';
 export const STEP_FINISH = 'ordered'
 
 const CartModal = (props) => {
-    const {items, customer, onChange: dispatchChangeToCart, isCustomerValid} = useContext(CartContext)
+    const {items, customer, isCustomerValid} = useSelector((state) => state.cart)
+    const dispatch = useDispatch();
     const [cartStep, setCartStep] = useState(STEP_LIST);
     const {sendRequest: storeOrder, error, isLoading: storeInProgress} = useHttp()
     useEffect(() => {
@@ -25,7 +27,7 @@ const CartModal = (props) => {
 
     const onCloseModalHandler = () => {
         props.onClose();
-        dispatchChangeToCart({type: 'RESET_CUSTOMER'})
+        dispatch(cartActions.setCustomer(null))
         setCartStep(STEP_LIST)
     }
     const onNextHandler = () => {
@@ -42,7 +44,7 @@ const CartModal = (props) => {
                             orderedAt: new Date()
                         }}).then(function(response){
                         if(response && response.data){
-                            dispatchChangeToCart({type: 'RESET_CART'})
+                            dispatch(cartActions.resetCart())
                             setCartStep(STEP_PAYMENT)
                         }
                     });

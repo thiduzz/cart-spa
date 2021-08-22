@@ -1,19 +1,21 @@
-import React, {useContext, useEffect} from 'react';
-import CartContext from "../../store/cart-context";
+import React, {useEffect} from 'react';
 import Input from "../UI/Input";
 import useInput from "../../hooks/use-input";
 import Select from "../UI/Select";
 import Countries from './Countries.js'
+import {useDispatch, useSelector} from "react-redux";
+import {cartActions} from "../../store/cart-slice";
 
 const validateRequired = (value) => value.trim().length > 0;
 const validateMinLength = (value, minLength) => value.trim().length >= minLength;
 
 const CartModalCheckout = (props) => {
-    const ctx = useContext(CartContext)
-    const hasItemsInCart = ctx.items.length > 0;
-    const totalValue = ctx.items.reduce((total, currentItem) => {
+    const items = useSelector((state) => state.cart.items)
+    const dispatch = useDispatch()
+    const totalValue = items.reduce((total, currentItem) => {
         return total + (currentItem.qty * currentItem.price)
     }, 0).toFixed(2)
+    const hasItemsInCart = items.length > 0
     const {
         value: name,
         isValid: nameIsValid,
@@ -59,9 +61,10 @@ const CartModalCheckout = (props) => {
 
     useEffect(() => {
         if (nameIsValid && lastNameIsValid && addressIsValid && zipcodeIsValid && cityIsValid && countryIsValid) {
-            ctx.onChange({type: 'CHECKOUT_VALID', customer: { name, lastName, address, zipcode, city, country } })
+            dispatch(cartActions.checkoutValidity(true))
+            dispatch(cartActions.setCustomer({ name, lastName, address, zipcode, city, country }))
         } else {
-            ctx.onChange({type: 'CHECKOUT_INVALID'})
+            dispatch(cartActions.checkoutValidity(false))
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [nameIsValid, lastNameIsValid, addressIsValid, zipcodeIsValid, cityIsValid, countryIsValid])

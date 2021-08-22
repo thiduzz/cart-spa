@@ -1,9 +1,9 @@
-import React, {useContext} from 'react';
-import CartContext from "../../store/cart-context";
+import React from 'react';
 import {STEP_LIST, STEP_CHECKOUT, STEP_PAYMENT, STEP_FINISH} from "./CartModal"
+import {useSelector} from "react-redux";
 
 const CartModalButtons = ({onClose: onCloseHandler, onNext: onNextHandler, step}) => {
-    const {items, isCustomerValid} = useContext(CartContext)
+    const {items, isCustomerValid} = useSelector((state) => state.cart)
     const hasItemsInCart = items.length > 0;
     const disabledBtn = !isCustomerValid
     return (

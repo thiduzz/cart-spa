@@ -1,16 +1,18 @@
-import React, { useContext, useEffect, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import "./ProductListItem.scss"
-import CartContext from "../../store/cart-context";
 import ProductQuantityButton from "./ProductQuantityButton";
+import {useDispatch, useSelector} from "react-redux";
+import {cartActions} from "../../store/cart-slice";
 
 const ProductListItem = ({product}) => {
-    const {items, onChange} = useContext(CartContext);
+    const {items} = useSelector((state) => state.cart);
+    const dispatch = useDispatch();
     const [qty, setQty] = useState(0)
     useEffect(() => {
         if (qty >= 1){
-            onChange({type: 'ITEM_CHANGED', product: {...product, qty}})
+            dispatch(cartActions.itemChanged({...product, qty}))
         }else{
-            onChange({type: 'ITEM_REMOVED', product: product})
+            dispatch(cartActions.productRemoved(product))
         }
         return () => {}
         // eslint-disable-next-line react-hooks/exhaustive-deps

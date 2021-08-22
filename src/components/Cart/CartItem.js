@@ -1,19 +1,22 @@
 import React from 'react';
 import ProductQuantityButton from "../Product/ProductQuantityButton";
+import {useDispatch} from "react-redux";
+import {cartActions} from "../../store/cart-slice";
 
 const CartItem = (props) => {
+    const dispatch = useDispatch();
     const formattedPrice = props.item.price.toFixed(2);
 
     const onRemoveClickHandler = () => {
         if (props.item.qty > 1){
-            props.onQuantityChange({type: 'ITEM_CHANGED', product: {...props.item, qty:  props.item.qty - 1}})
+            dispatch(cartActions.itemChanged( {...props.item, qty:  props.item.qty - 1}))
         }else{
-            props.onQuantityChange({type: 'ITEM_REMOVED', product: props.item})
+            dispatch(cartActions.productRemoved( props.item))
         }
     }
 
     const onAddClickHandler = () => {
-        props.onQuantityChange({type: 'ITEM_CHANGED', product: {...props.item, qty: props.item.qty + 1 }})
+        dispatch(cartActions.itemChanged( {...props.item, qty:  props.item.qty + 1}))
     }
 
     return (
